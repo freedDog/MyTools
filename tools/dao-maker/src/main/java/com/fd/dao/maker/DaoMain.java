@@ -26,10 +26,10 @@ public class DaoMain {
 	}
 
 	public static void test() throws Exception {
-		final String url = "jdbc:mysql://127.0.0.1:3306/db_game_sg_001";
+		final String url = "jdbc:mysql://127.0.0.1:3306/db_xsg_game"+"?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
 		// final String url = "jdbc:mysql://127.0.0.1:3306/db_game_sg_temp";
 		final String user = "root";
-		final String pwd = "admin";
+		final String pwd = "root";
 
 		final String outpath = "src/test/java/test/out/";
 		final String filename = "%sInfo.java";
@@ -66,8 +66,8 @@ public class DaoMain {
 		// -args=[package=com.changic.sg.dao,entity_package=com.changic.sg.entity]";
 		// args = argStr.split(" ");
 
-		args = new String[] { "-table=t_u_guild", "-url=" + url, "-user=" + user, "-pwd=" + pwd, "-out=" + outpath,
-				"-filename=" + filename, "-language=" + language, "-vm=" + vm, "-args=" + jargs, "-of=true" };
+		args = new String[] { "-table=t_u_player", "-url=" + url, "-user=" + user, "-pwd=" + pwd, "-out=" + outpath,
+				"-filename=" + filename, "-language=" + language, "-vm=" + vm, "-args=" + jargs };
 		start(args);
 
 		// start(args);

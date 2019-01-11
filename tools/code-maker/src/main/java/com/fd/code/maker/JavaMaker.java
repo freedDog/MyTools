@@ -4,8 +4,8 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fd.code.maker.velocity.VelocityMaker;
-import com.fd.code.utils.CodeUtils;
+import com.codemaker.maker.velocity.VelocityMaker;
+import com.codemaker.utils.CodeUtils;
 
 public class JavaMaker extends VelocityMaker {
 

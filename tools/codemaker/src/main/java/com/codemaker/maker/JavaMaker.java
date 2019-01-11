@@ -1,4 +1,4 @@
-package com.fd.code.maker;
+package com.codemaker.maker;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -7,13 +7,8 @@ import java.util.Map;
 import com.codemaker.maker.velocity.VelocityMaker;
 import com.codemaker.utils.CodeUtils;
 
-/**
- * 通用数据处理
- * CommonMaker.java
- * @author JiangBangMing
- * 2019年1月9日下午3:03:53
- */
-public class CommonMaker extends VelocityMaker {
+
+public class JavaMaker extends VelocityMaker {
 
 	/** 基础类字段 **/
 	protected final static Map<String, Class<?>[]> classStrs = new HashMap<>();
@@ -71,11 +66,11 @@ public class CommonMaker extends VelocityMaker {
 
 	@Override
 	public String language() {
-		return "common";
+		return "java";
 	}
 
 	@Override
 	public String type() {
-		return "data";
+		return "class";
 	}
 }

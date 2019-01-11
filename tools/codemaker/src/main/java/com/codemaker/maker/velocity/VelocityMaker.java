@@ -77,7 +77,7 @@ public abstract class VelocityMaker implements IFileMaker {
 		String baseName = order.getBaseName();
 
 		// 类名
-		String className = CodeUtils.fristUpper(FileUtils.getFileName(fileName));
+		String className = CodeUtils.fristUpper(FileUtils.getFileNameBody(fileName));
 		context.put("className", className);
 		context.put("fileName", fileName);
 		context.put("baseName", baseName);
@@ -97,9 +97,12 @@ public abstract class VelocityMaker implements IFileMaker {
 			String name0 = value.getName(); // 变量名称
 			String name = filterKey(name0); // 变量名称
 			// 变量类型
+			if(name0.equals("CreateTime")) {
+				System.out.println("");
+			}
 			String typeStr = getClassStr(value.getType()); // 类型
 			String objTypeStr = getObjectClassStr(value.getType()); // 对象类型
-
+		
 			// 创建模板变量
 			VelocityField field0 = new VelocityField();
 			field0.setName(name);

@@ -1,14 +1,29 @@
 package com.fd.code.parse;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.codemaker.maker.FileOrder;
+import com.codemaker.maker.FileOrder.FieldValue;
+import com.codemaker.parse.ExcelParse;
+import com.codemaker.parse.IFileParse;
+import com.codemaker.utils.CodeUtils;
 
 /**
  * xml解析<br>
  * 格式: 前4行为变量名称, 变量类型, 变量说明, 变量范围.
- * ExcelParseT.java
- * @author JiangBangMing
- * 2019年1月9日下午3:05:00
+ * 
  */
 public class ExcelParseT extends ExcelParse {
+	
+	private static final Logger LOGGER=LoggerFactory.getLogger(ExcelParseT.class);
 	public static final int rowType_name = 0; // 第一列名称
 	public static final int rowType_type = 1; // 第二列类型
 	public static final int rowType_tag = 2; // 第三列注释
@@ -31,7 +46,7 @@ public class ExcelParseT extends ExcelParse {
 	public boolean onSheetStart(int sheetIndex, String sheetName, Sheet sheet) {
 		if (sheetIndex <= 0) {
 			if (sheetName.equals("list")) {
-				Log.warn("跳过list表!");
+				LOGGER.warn("跳过list表!");
 				return false; // 跳过第一张list表
 			}
 		}
@@ -51,7 +66,7 @@ public class ExcelParseT extends ExcelParse {
 		FieldValue[] fieldValues = order.getAll();
 		int fsize = (fieldValues != null) ? fieldValues.length : 0;
 		if (fsize <= 0) {
-			Log.error("表没有获取到模板参数!" + sheetName);
+			LOGGER.error("表没有获取到模板参数!" + sheetName);
 			return false;
 		}
 
@@ -108,7 +123,7 @@ public class ExcelParseT extends ExcelParse {
 		// 参数模式
 		if (rowIndex <= rowType_mode) {
 			if (cell == null) {
-				Log.error("模板参数不能为空! 表名:" + order.getName() + " 第" + (rowIndex + 1) + "行, 第" + (colIndex + 1) + "列");
+				LOGGER.error("模板参数不能为空! 表名:" + order.getName() + " 第" + (rowIndex + 1) + "行, 第" + (colIndex + 1) + "列");
 				return false;
 			}
 		}
@@ -126,7 +141,7 @@ public class ExcelParseT extends ExcelParse {
 		// 判断是参数部分还是数据部分
 		if (rowIndex <= rowType_mode) {
 			if (obj == null) {
-				Log.error("模板参数不能为空! 表名:" + order.getName() + " 第" + (rowIndex + 1) + "行, 第" + (colIndex + 1) + "列");
+				LOGGER.error("模板参数不能为空! 表名:" + order.getName() + " 第" + (rowIndex + 1) + "行, 第" + (colIndex + 1) + "列");
 				return false;
 			}
 			// 获取参数
@@ -138,7 +153,7 @@ public class ExcelParseT extends ExcelParse {
 			}
 			// 检测是否存在变量
 			if (value == null) {
-				Log.error("模板参数没有对象!");
+				LOGGER.error("模板参数没有对象!");
 				return false;
 			}
 			// Log.info("模板数据! 表名:" + order.getName() + " 第" + (rowIndex + 1) + "行, 第" + (colIndex + 1) + "列 value=" + obj);
@@ -157,7 +172,7 @@ public class ExcelParseT extends ExcelParse {
 				break;
 			case rowType_mode:
 				if (obj.getClass() != Integer.class) {
-					Log.error("模板模式错误! sheetIndex=" + sheetIndex + " rowIndex=" + rowIndex + " colIndex=" + colIndex);
+					LOGGER.error("模板模式错误! sheetIndex=" + sheetIndex + " rowIndex=" + rowIndex + " colIndex=" + colIndex);
 					return false;
 				}
 				value.setModel((Integer) obj);

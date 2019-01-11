@@ -5,8 +5,10 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.fd.code.maker.FileOrder.FieldValue;
-import com.fd.code.utils.CodeUtils;
+import com.codemaker.maker.FileOrder;
+import com.codemaker.maker.FileOrder.FieldValue;
+import com.codemaker.maker.IFileMaker;
+import com.codemaker.utils.CodeUtils;
 
 public class JsonMaker implements IFileMaker {
 	protected String filename = null;

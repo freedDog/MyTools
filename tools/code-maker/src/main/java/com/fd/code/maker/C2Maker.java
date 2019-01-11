@@ -3,9 +3,9 @@ package com.fd.code.maker;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fd.code.maker.velocity.VelocityMaker;
-import com.fd.code.parse.IFileParse;
-import com.fd.code.utils.CodeUtils;
+import com.codemaker.maker.velocity.VelocityMaker;
+import com.codemaker.parse.IFileParse;
+import com.codemaker.utils.CodeUtils;
 
 public class C2Maker extends VelocityMaker {
 	/** 基础类字段 **/

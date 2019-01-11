@@ -1,18 +1,36 @@
-package com.fd.code.parse;
+package com.codemaker.parse;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import com.fd.code.maker.FileOrder;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.codemaker.filtrater.Filtrater;
+import com.codemaker.maker.FileOrder;
+import com.codemaker.utils.CodeUtils;
 
 /**
  * 解析读取xlsx<br>
  * 基类, 解析通用的xlsx.
  * ExcelParse.java
  * @author JiangBangMing
- * 2019年1月9日下午3:05:38
+ * 2019年1月11日下午3:38:23
  */
 public abstract class ExcelParse implements IFileParse {
+	
+	private static final Logger LOGGER=LoggerFactory.getLogger(ExcelParse.class);
 	protected String filePath;
 	protected List<FileOrder> orders = new ArrayList<FileOrder>();
 
@@ -61,7 +79,7 @@ public abstract class ExcelParse implements IFileParse {
 					// 处理cell事件
 					Object value0 = getArg(value);
 					if (!onCell(index, r, c, value0)) {
-						Log.error("处理数据失败! 表名:" + name + " 第" + (r + 1) + "[" + startRow + "-" + endRow + "]行, 第" + (c + 1) + "[" + startCol + "-" + endCol + "]列");
+						LOGGER.error("处理数据失败! 表名:" + name + " 第" + (r + 1) + "[" + startRow + "-" + endRow + "]行, 第" + (c + 1) + "[" + startCol + "-" + endCol + "]列");
 						return false;
 					}
 
@@ -84,7 +102,7 @@ public abstract class ExcelParse implements IFileParse {
 
 		} catch (Exception e) {
 			// e.printStackTrace();
-			Log.error(filePath + " [" + index + "] " + name + "[" + r + "," + c + "] :" + valueStr + " error", e);
+			LOGGER.error(filePath + " [" + index + "] " + name + "[" + r + "," + c + "] :" + valueStr + " error", e);
 			// 错误处理
 			onSheetError(index, name, sheet);
 			return false;
@@ -105,14 +123,14 @@ public abstract class ExcelParse implements IFileParse {
 
 		// 过滤临时文件
 		if (filePath.indexOf("~$") >= 0) {
-			Log.info("跳过临时文件! " + filePath);
+			LOGGER.info("跳过临时文件! " + filePath);
 			return true; // 跳过临时文件
 		}
 
 		// 加载文件
 		Workbook xwb = load(filePath);
 		if (xwb == null) {
-			Log.error("打开文件失败!" + filePath);
+			LOGGER.error("打开文件失败!" + filePath);
 			return false;
 		}
 		try {
@@ -131,12 +149,12 @@ public abstract class ExcelParse implements IFileParse {
 
 				// 名称过滤
 				if (!name.matches("^[a-z0-9A-Z_]*$")) {
-					Log.error("表名称异常, 过滤跳过: name=" + name);
+					LOGGER.error("表名称异常, 过滤跳过: name=" + name);
 					continue;
 				}
 				// 检测是否过滤
 				if (!Filtrater.check(filtraters, name)) {
-					Log.info("筛选器过滤跳过:name=" + name);
+					LOGGER.info("筛选器过滤跳过:name=" + name);
 					continue;
 				}
 
@@ -254,4 +272,3 @@ public abstract class ExcelParse implements IFileParse {
 	}
 
 }
-

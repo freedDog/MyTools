@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 public class SimpleDataSource implements DataSource {
-	private static final String dirverClassName = "com.mysql.jdbc.Driver";
+	private static final String dirverClassName = "com.mysql.cj.jdbc.Driver";
 	private final String url;
 	private final String user;
 	private final String pwd;
@@ -22,14 +22,13 @@ public class SimpleDataSource implements DataSource {
 		try {
 			Class.forName(dirverClassName);
 		} catch (ClassNotFoundException e) {
-			System.err.println("找不到驱动类！" + e);
 			e.printStackTrace();
 			System.exit(0);
 		}
 	}
 
 	public SimpleDataSource(String url, String user, String pwd) {
-		this.url = url;
+		this.url = url+"?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
 		this.user = user;
 		this.pwd = pwd;
 		pool = new LinkedList<Connection>();
